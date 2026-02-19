@@ -1,0 +1,10 @@
+[
+  {
+    "domain": "example.com",
+    "link": "https://example.com",
+    "login": "your_login",
+    "password": "your_password",
+    "expiry": "",
+    "days_left": null
+  }
+]

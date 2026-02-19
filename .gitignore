@@ -1,0 +1,19 @@
+# --- СЕКРЕТНЫЕ ДАННЫЕ ---
+domains.json
+
+# --- Python кеш ---
+__pycache__/
+*.py[cod]
+
+# --- Виртуальные окружения ---
+venv/
+.venv/
+.env
+
+# --- Сборка (PyInstaller и т.п.) ---
+build/
+dist/
+
+# --- OS мусор ---
+.DS_Store
+Thumbs.db
