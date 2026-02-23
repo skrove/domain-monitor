@@ -1,0 +1,21 @@
+{
+  "notify_days_threshold": 30,
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.example.com",
+    "smtp_port": 587,
+    "use_tls": true,
+    "use_ssl": false,
+    "username": "user@example.com",
+    "password": "password_or_app_password",
+    "from_addr": "user@example.com",
+    "to_addrs": [
+      "admin@example.com"
+    ]
+  },
+  "telegram": {
+    "enabled": false,
+    "bot_token": "123456789:ABCDEF_your_token",
+    "chat_id": "123456789"
+  }
+}

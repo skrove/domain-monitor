@@ -5,6 +5,7 @@
     "login": "your_login",
     "password": "your_password",
     "expiry": "",
-    "days_left": null
+    "days_left": null,
+    "last_notified": null
   }
 ]
