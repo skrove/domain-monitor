@@ -1,7 +1,4 @@
-# --- СЕКРЕТНЫЕ ДАННЫЕ ---
 domains.json
-
-# --- Python кеш ---
 __pycache__/
 *.py[cod]
 
@@ -17,3 +14,8 @@ dist/
 # --- OS мусор ---
 .DS_Store
 Thumbs.db
+settings.json
+domains.json
+*.pyc
+*.log
+.env

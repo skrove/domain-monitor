@@ -1,45 +1,95 @@
-# Монитор доменов — уведомления (Email + Telegram)
+# Domain Monitor — Email + Telegram notifications (EN/RU)
 
-В этой версии добавлены уведомления о скором окончании доменов.
+This app checks domain expiration via **WHOIS**, stores your list in `domains.json`, and can send notifications:
+- **Email (SMTP)**
+- **Telegram**
 
-## Как работает уведомление
+✅ **Default language:** English (can be changed to Russian in Settings).
 
-После нажатия **«Проверить домены (WHOIS)»** приложение:
-1) обновляет дату окончания и `days_left`;
-2) если найден домен(ы) у которых `days_left` меньше/равно порога (по умолчанию 30 дней) — отправляет уведомления:
-   - на Email (SMTP), если включено;
-   - в Telegram, если включено.
+---
 
-Чтобы не спамить, по каждому домену уведомление отправляется **не чаще 1 раза в день**
-(поле `last_notified` в `domains.json`).
+## How notifications work
 
-## Настройка
+When a WHOIS check is executed, the app:
+1) updates `expiry` and `days_left` for each domain;
+2) if a domain has `days_left ≤ threshold` (default 30 days) — it sends notifications.
 
-В приложении нажмите кнопку **«Настройки уведомлений»** и заполните поля.
+Anti-spam: a domain is notified **max once per day** (`last_notified` field in `domains.json`).
 
-Настройки сохраняются в файл `settings.json` рядом со скриптом/EXE.
+---
 
-Также есть пример: `settings.example.json`.
+## Automation options
 
-### Telegram
+### Option A — Daily auto-check inside the app (GUI)
 
-1) Создайте бота через `@BotFather` и получите `bot_token`.
-2) Напишите вашему боту любое сообщение (или добавьте бота в нужный чат).
-3) Получите `chat_id` (пример через API):
+Open **Settings → Automation** and enable **daily auto-check** + set the time.
+
+⚠️ The app must be **running** for this option.
+
+### Option B — Windows Task Scheduler (recommended)
+
+This option works even when the app is **not running**.
+
+1) `Win + R` → `taskschd.msc`
+2) Create a task (daily)
+3) Action: **Start a program**
+   - **Program/script:** path to `domain_monitor.exe`
+   - **Add arguments:** `--check`
+   - **Start in:** folder where the EXE is located
+
+If you run via Python:
+- Program/script: `C:\\Path\\python.exe`
+- Add arguments: `C:\\Path\\domain_monitor.py --check`
+- Start in: `C:\\Path\\`
+
+In `--check` mode the app runs one WHOIS check, sends notifications and exits.
+A log file is written: `domain_monitor.log`.
+
+---
+
+## Configuration
+
+Use **Settings** and fill:
+- Notification threshold
+- Email SMTP settings
+- Telegram bot token + chat ID
+
+Settings are saved to `settings.json` next to the script/EXE.
+
+### Telegram: get chat_id
+
+1) Create a bot via `@BotFather` and get `bot_token`.
+2) Send a message to your bot.
+3) Open in browser:
 
 ```text
-https://api.telegram.org/bot<ВАШ_TOKEN>/getUpdates
+https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates
 ```
 
-После этого в ответе будет `chat.id`.
+Find `chat: { id: ... }`.
 
-### Email (SMTP)
+---
 
-Укажите SMTP сервер/порт, логин/пароль и получателей.
-Для Gmail/Яндекс/и т.п. часто нужен **пароль приложения** (App Password), а не обычный пароль.
+## Files
 
-## Примечание про файлы
+- `domains.json` — your domain list
+- `settings.json` — your settings (contains secrets)
 
-- `domains.json` — список доменов.
-- `settings.json` — настройки уведомлений.
-Оба файла сохраняются рядом с `domain_monitor.py` (или рядом с EXE, если собран PyInstaller).
+Both are saved **next to** `domain_monitor.py` (or next to the EXE).
+
+---
+
+# RU (Кратко)
+
+Приложение проверяет домены по WHOIS и умеет слать уведомления в **Email** и **Telegram**.
+
+## Автоматизация
+
+- **Автопроверка внутри программы**: Settings → Automation (нужно, чтобы программа была запущена).
+- **Планировщик Windows (рекомендовано)**: запускать `domain_monitor.exe --check` 1 раз в день.
+
+Лог: `domain_monitor.log`.
+
+## Важно
+
+`settings.json` хранит пароль SMTP и токен Telegram — **не коммитьте** его в GitHub.

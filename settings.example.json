@@ -1,5 +1,10 @@
 {
+  "language": "en",
   "notify_days_threshold": 30,
+  "automation": {
+    "auto_check_enabled": false,
+    "auto_check_time": "09:00"
+  },
   "email": {
     "enabled": false,
     "smtp_server": "smtp.example.com",
